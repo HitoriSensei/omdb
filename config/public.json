@@ -1,0 +1,6 @@
+{
+  "api": {
+      "host": "https://api-dev.example.com"
+  },
+  "GTM_ID": ""
+}

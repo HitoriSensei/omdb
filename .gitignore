@@ -1,0 +1,10 @@
+.idea
+node_modules
+.next
+.design
+
+package-lock.json
+yarn.lock
+
+#playground page for prototypying new components
+pages/test.tsx

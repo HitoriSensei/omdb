@@ -1,0 +1,70 @@
+@import 'mixins';
+@import 'styles/variables';
+@import 'styles/fonts';
+@import 'styles/mui-base';
+
+body,
+html {
+  font-family: var(--font-family-main);
+  font-size: var(--font-size-2);
+  line-height: 1.4em;
+  font-stretch: condensed;
+  color: var(--font-color-base);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+:focus {
+  outline: none;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+#__next {
+  // extend page root to fill whole vertical viewport space
+  //min-height: 100vh;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+}
+
+@include mediaDesktop() {
+  /* The emerging W3C standard
+     that is currently Firefox-only */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) var(--color-white);
+  }
+
+  /* Works on Chrome/Edge/Safari */
+  *::-webkit-scrollbar {
+    width: 12px;
+  }
+  *::-webkit-scrollbar-track {
+    background: var(--color-white);
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--color-accent);
+    border-radius: 20px;
+    border: 3px solid var(--color-white);
+  }
+}
+
+.page-animation > * {
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+
+  &:last-child {
+    position: relative;
+    z-index: 2;
+  }
+}

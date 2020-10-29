@@ -1,0 +1,114 @@
+// SCSS Variables
+$width-screen-tablet: 712px;
+$width-screen-desktop: 1025px;
+
+@mixin transition($properties...) {
+  $result: ();
+
+  @each $prop in $properties {
+    $result: append(
+      $result,
+      $prop
+        var(--animation-time)
+        var(--animation-ease)
+        unquote(
+          $string: ',',
+        )
+    );
+  }
+
+  transition: $result;
+}
+
+@mixin mediaMobile() {
+  @media (max-width: #{$width-screen-tablet - 1px}) {
+    @content;
+  }
+}
+
+@mixin mediaTablet() {
+  @media (min-width: $width-screen-tablet) {
+    @content;
+  }
+}
+
+@mixin mediaDesktop() {
+  @media (min-width: $width-screen-desktop) {
+    @content;
+  }
+}
+
+@mixin button() {
+  appearance: none !important;
+  border-radius: var(--border-radius-main);
+  font-family: var(--font-family-main);
+  font-size: var(--font-size-3);
+  font-weight: normal;
+  position: relative;
+  border: 0;
+  padding: 0.75em 1.2em;
+  overflow: hidden;
+  cursor: pointer;
+  text-transform: uppercase;
+  line-height: 1;
+  background-color: var(--color-blue-4);
+  color: var(--color-white);
+  text-decoration: none;
+  display: inline-block;
+  white-space: nowrap;
+
+  &[disabled] {
+    background-color: var(--color-gray-3);
+    color: var(--color-white);
+    pointer-events: none;
+  }
+  &:not([disabled]) {
+    :global(.button-hover-trigger):hover &,
+    :global(.button-hover-trigger):focus &,
+     {
+      background-color: var(--color-blue-4);
+    }
+
+    &:hover,
+    &:focus {
+      background-color: var(--color-blue-4);
+    }
+
+    @include mediaDesktop() {
+      &::before,
+      &::after {
+        @include transition(transform, opacity);
+
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background-color: rgba(255, 255, 255, 0.25);
+        transform: translateY(-50%) rotate(-90deg);
+        transform-origin: left bottom;
+        display: block;
+      }
+
+      &::after {
+        transition-delay: var(--animation-time);
+      }
+
+      :global(.button-hover-trigger):hover &{
+        &::before,
+        &::after {
+          transform: translate(0);
+        }
+      }
+
+      &:hover {
+        &::before,
+        &::after {
+          transform: translate(0);
+        }
+      }
+    }
+  }
+}

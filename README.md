@@ -57,3 +57,25 @@ If you want to pull updates to the framework just pull the changes:
 git fetch framework master
 git merge framework/master
 ```
+
+# Contribute
+Do you have a component or an idea for a component that can be reused in other projects?
+
+Have you found a bug and want to submit a patch?
+
+## Create a merge request!
+
+It's extremely simple.
+
+Recipe:
+* Clone the starter repository \
+`git clone git@git.pride.gl:piotr.bosak/nextjs-starter.git`
+* Checkout master branch\
+`cd nextjs-starter`\
+`git checkout master`
+* Create patch branch
+`git checkout -b patch-fixes-modal-bug`
+or
+`git checkout -b feature-mobile-menu-component`
+* Make changes, commit, push
+* Create a [merge request](https://git.pride.gl/piotr.bosak/nextjs-starter/-/merge_requests/new?merge_request%5Bsource_project_id%5D=1310&merge_request%5Btarget_branch%5D=master&merge_request%5Btarget_project_id%5D=1310)

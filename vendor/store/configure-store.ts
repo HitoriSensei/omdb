@@ -14,6 +14,9 @@ export function configureStore() {
 // export an assembled wrapper
 export const wrapper = createWrapper<StoreRoot>(configureStore, {
   debug: process.env.NODE_ENV === 'development',
+  // https://dev.to/ryyppy/reason-records-nextjs-undefined-and-getstaticprops-5d46
+  deserializeState: (state) => state,
+  serializeState: (state) => JSON.parse(JSON.stringify(state)),
 })
 
 export function GenerateActions<

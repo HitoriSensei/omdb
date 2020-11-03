@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 /* eslint-disable @typescript-eslint/ban-types */
+
 declare interface StoreRoot {}
 declare interface StoreActions {}
 
@@ -22,3 +23,7 @@ declare type ActionOf<
     [action: string]: ActionPayload<{}> | null
   }
 > = Values<ActionsMap<Actions>>
+
+declare interface StoreActions {
+  __NEXT_REDUX_WRAPPER_HYDRATE__: { type: '__NEXT_REDUX_WRAPPER_HYDRATE__'; payload: StoreRoot }
+}

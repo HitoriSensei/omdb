@@ -1,31 +1,21 @@
 import React from 'react'
-import { NextPage } from 'next'
-import { getStaticPropsWithStore } from 'vendor/utils/getServerSideProps'
-import { HandleErrors } from 'vendor/utils/defaultErrorHandler'
-import { fetchPageIndexData } from 'data/fetchPageIndexData'
+import { VendorGetStaticProps } from 'vendor/utils/VendorGetStaticProps'
 
 type Props = { date: string }
 
-const PagesIndex: NextPage = HandleErrors((props: Props) => {
+const PagesIndex = (props: Props) => {
   return (
     <>
       Hello
       {props.date}
     </>
   )
-})
+}
 
-export const getStaticProps = getStaticPropsWithStore<Props>(
-  async (
-    {
-      /* store - use if you want to dispatch any redux actions when loading a page */
-    },
-  ) => {
-    return {
-      props: await fetchPageIndexData(),
-      revalidate: 10, // In seconds
-    }
+export const getStaticProps = VendorGetStaticProps<Props>(async () => ({
+  props: {
+    date: new Date().toISOString(),
   },
-)
+}))
 
 export default PagesIndex

@@ -1,15 +1,11 @@
 import React from 'react'
 import { NextPage } from 'next'
-import { getStaticPropsWithStore } from '../vendor/utils/getServerSideProps'
+import { VendorGetStaticProps } from 'vendor/utils/VendorGetStaticProps'
 
 const Pages404: NextPage = () => {
   return <>404</>
 }
 
-export const getStaticProps = getStaticPropsWithStore(async () => {
-  return {
-    props: {},
-  }
-})
+export const getStaticProps = VendorGetStaticProps()
 
 export default Pages404

@@ -1,4 +1,4 @@
-import { GenerateActions } from '../../vendor/store/configure-store'
+import { GenerateActions } from 'vendor/store/configure-store'
 
 export type Actions = {
   SET_MODAL_OPEN_STATE: ActionPayload<{

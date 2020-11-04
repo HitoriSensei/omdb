@@ -1,3 +1,5 @@
+import { HYDRATE } from 'next-redux-wrapper'
+
 export interface Store {
   isModalOpen: boolean
 }
@@ -18,6 +20,11 @@ export function appReducer(state = appInitialStore, action: Values<StoreActions>
         ...state,
         isModalOpen: !state.isModalOpen,
       }
+    case HYDRATE: {
+      return {
+        ...action.payload.app,
+      }
+    }
   }
 
   return state

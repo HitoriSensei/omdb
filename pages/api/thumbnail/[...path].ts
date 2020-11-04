@@ -1,8 +1,8 @@
-import { API_HOST } from '../../../utils/api'
+import { API_HOST } from 'utils/api'
 import { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios'
 import sharp, { ResizeOptions } from 'sharp'
-import { swrlru } from '../../../vendor/utils/swrlru'
+import { swrlru } from 'vendor/utils/swrlru'
 
 const thumbnailCacheMaxAgeSeconds = 60 * 60 * 24 * 10 /* days */
 

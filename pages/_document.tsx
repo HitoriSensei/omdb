@@ -1,10 +1,10 @@
 import React from 'react'
 import { Html, Main, NextScript } from 'next/document'
-import { GTMBody, GTMHead } from '../vendor/components/GTM'
-import { Head } from '../vendor/components/Required/Head'
-import { Document } from '../vendor/components/Required/Document'
+import { GTMBody, GTMHead } from 'vendor/components/GTM'
+import { Head } from 'vendor/components/Required/Head'
+import { VendorDocument } from 'vendor/components/Required/VendorDocument/VendorDocument'
 
-export default class MyDocument extends Document {
+export default class MyDocument extends VendorDocument {
   render(): JSX.Element {
     return (
       <Html>

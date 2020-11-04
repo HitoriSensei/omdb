@@ -1,27 +1,25 @@
-import { applyMiddleware, createStore } from 'redux'
+import { combineReducers, createStore, ReducersMapObject } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
-import createSagaMiddleware from 'redux-saga'
-import { rootReducer } from '../../store/root-reducer'
 import { createWrapper } from 'next-redux-wrapper'
+import rootReducer from '../../store/root-reducer'
+
+export const StoreReducerExtensions: ReducersMapObject<StoreRoot & VendorStoreRoot> = {
+  ...rootReducer,
+} as ReducersMapObject<StoreRoot & VendorStoreRoot>
 
 export function configureStore() {
-  const sagaMiddleware = createSagaMiddleware()
-  const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)))
-
-  return store
+  const withVendorReducer = combineReducers<StoreRoot & VendorStoreRoot>(StoreReducerExtensions)
+  return createStore(withVendorReducer, composeWithDevTools())
 }
 
 // export an assembled wrapper
-export const wrapper = createWrapper<StoreRoot>(configureStore, {
+export const wrapper = createWrapper<StoreRoot & VendorStoreRoot>(configureStore, {
   debug: process.env.NODE_ENV === 'development',
   // https://dev.to/ryyppy/reason-records-nextjs-undefined-and-getstaticprops-5d46
-  deserializeState: (state) => state,
   serializeState: (state) => JSON.parse(JSON.stringify(state)),
 })
 
-export function GenerateActions<
-  Actions extends { [type: string]: ActionPayload<{ [key: string]: unknown }> | null }
->(): {
+export function GenerateActions<Actions extends unknown>(): {
   [Action in keyof Actions]: Actions[Action] extends ActionPayload<infer Data>
     ? (payload: Data) => { type: Action; payload: Data }
     : () => { type: Action }

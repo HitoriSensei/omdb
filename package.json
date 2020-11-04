@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.pride.gl:zywiec-zdroj/zywiec-zdroj-2020-front.git"
+    "url": "git@git.pride.gl:piotr.bosak/nextjs-starter.git"
   },
   "author": "Piotr Bosak",
   "dependencies": {

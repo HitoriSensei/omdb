@@ -9,9 +9,16 @@ declare interface VendorStoreRoot {
   }
 }
 
-declare interface StoreActions {}
+declare interface FrameworkLibraryActions {
+  __NEXT_REDUX_WRAPPER_HYDRATE__: {
+    type: '__NEXT_REDUX_WRAPPER_HYDRATE__'
+    payload: StoreRoot & VendorStoreRoot
+  }
+}
 
-declare interface VendorActions {}
+declare interface StoreActions extends FrameworkLibraryActions {}
+
+declare interface VendorActions extends FrameworkLibraryActions {}
 
 declare type ActionPayload<Payload extends { [key: string]: unknown }> = {}
 
@@ -32,10 +39,3 @@ declare type ActionOf<
     [action: string]: ActionPayload<{}> | null
   }
 > = Values<ActionsMap<Actions>>
-
-declare interface StoreActions {
-  __NEXT_REDUX_WRAPPER_HYDRATE__: {
-    type: '__NEXT_REDUX_WRAPPER_HYDRATE__'
-    payload: StoreRoot & VendorStoreRoot
-  }
-}

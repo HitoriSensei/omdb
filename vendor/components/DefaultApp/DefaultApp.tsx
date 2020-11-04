@@ -31,7 +31,11 @@ export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps }) =>
     () =>
       DefaultAppWrappers.reduce(
         // eslint-disable-next-line react/display-name
-        (content, Wrapper) => ({ children }) => <Wrapper>{children}</Wrapper>,
+        (Content, Wrapper) => (props) => (
+          <Wrapper>
+            <Content {...props} />
+          </Wrapper>
+        ),
         (({ children }) => children) as React.ComponentType,
       ),
     [DefaultAppWrappers.length],

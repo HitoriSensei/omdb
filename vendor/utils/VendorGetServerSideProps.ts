@@ -11,7 +11,9 @@ export function VendorGetServerSideProps<T>(
     ctx: GetServerSidePropsContext & {
       store: Store<StoreRoot>
     },
-  ) => Promise<GetServerSidePropsResult<T>>,
+  ) => Promise<GetServerSidePropsResult<T>> = async function <T>() {
+    return { props: {} as T }
+  },
 ): GetServerSideProps<T> {
   return serverSidePropsCommonErrorHandler(wrapper.getServerSideProps, getData)
 }

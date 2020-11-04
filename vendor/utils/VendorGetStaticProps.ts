@@ -3,15 +3,15 @@ import { Store } from 'redux'
 import { wrapper } from '../store/configure-store'
 import { serverSidePropsCommonErrorHandler } from './serverSidePropsCommonErrorHandler'
 
-async function emptyProps<T>() {
-  return { props: {} as T }
-}
-
 export const GlobalStaticStoreExtensions: Array<(
   ctx: GetStaticPropsContext & {
     store: Store<StoreRoot & VendorStoreRoot>
   },
 ) => Promise<void>> = []
+
+const emptyProps = async function <T>() {
+  return { props: {} as T }
+}
 
 export function VendorGetStaticProps<T>(
   getProps: (

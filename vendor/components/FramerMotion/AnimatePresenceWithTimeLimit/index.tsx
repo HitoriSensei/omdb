@@ -23,7 +23,6 @@ export function AnimatePresenceWithTimeLimit({
     <SwitchTransition mode='out-in'>
       <Transition key={transitionKey} timeout={timeout} onExited={onExited || undefined}>
         {(state) => {
-          console.log('state', state)
           return (
             <Component
               {...otherProps}

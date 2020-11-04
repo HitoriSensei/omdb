@@ -2,6 +2,7 @@ import React from 'react'
 import { AppProps } from 'next/app'
 import { StylesProvider } from '@material-ui/core/styles'
 import { wrapper } from 'vendor/store/configure-store'
+import 'vendor/mods-loader'
 
 export const VendorApp = (Component: React.ComponentType<AppProps>) => {
   const VendorAppWrapper = (props: AppProps) => {

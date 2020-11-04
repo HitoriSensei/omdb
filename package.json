@@ -23,6 +23,7 @@
     "@types/lodash": "^4.14.162",
     "@types/query-string": "^6.3.0",
     "@types/sharp": "^0.26.0",
+    "@types/webpack-env": "^1.15.3",
     "@xobotyi/scrollbar-width": "^1.9.5",
     "axios": "^0.21.0",
     "babel-plugin-const-enum": "^1.0.1",

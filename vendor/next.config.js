@@ -1,18 +1,21 @@
 const merge = require('lodash/merge')
-const requireGlob = require("require-glob");
+const requireGlob = require("require-glob")
+require('typescript-require')({
+  targetES5: false,
+  exitOnError: false,
+  emitOnError: true,
+  nodeLib: true,
+  tmpDir: '.tsreq'
+});
 
 const nextConfig = {
   devIndicators: {
     autoPrerender: true
   },
-  publicRuntimeConfig: require('../config/public.json'),
-  serverRuntimeConfig: require('../config/private.json'),
-  staticRewrites: [
-    {
-      source: '/sitemap.xml',
-      destination: '/api/sitemap.xml',
-    },
-  ],
+  poweredByHeader: false,
+  publicRuntimeConfig: require('../config/public.ts').default(),
+  serverRuntimeConfig: require('../config/private.ts').default(),
+  staticRewrites: [],
   async rewrites() {
     return [
       ...this.staticRewrites
@@ -21,7 +24,9 @@ const nextConfig = {
 };
 
 // Load mods
-const mods = requireGlob.sync('mods/*/next.config.js');
+const mods = requireGlob.sync('./mods/*/next.config.js', {
+  cwd: __dirname,
+});
 
 for(const mod in mods) {
   merge(nextConfig, mods[mod].nextConfig)

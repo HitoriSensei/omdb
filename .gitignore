@@ -1,6 +1,7 @@
 .idea
 node_modules
 .next
+.tsreq
 .design
 
 package-lock.json

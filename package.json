@@ -42,6 +42,7 @@
     "react-redux": "^7.2.0",
     "react-transition-group": "4.3.0",
     "redux": "^4.0.5",
+    "require-glob": "^3.2.0",
     "sass": "^1.27.0",
     "sharp": "^0.26.2",
     "stale-while-revalidate-lru-cache": "^1.0.3",

@@ -7,7 +7,7 @@
     "start-next": "next start",
     "start": "bash vendor/start.sh",
     "lint": "eslint --config .eslintrc.json --fix --quiet --ext .ts,.tsx,.js ./",
-    "lint-staged": "tsc --noemit && eslint-staged --config .eslintrc.json --fix --quiet --ext .ts,.tsx,.js ./",
+    "lint-staged": "eslint-staged --config .eslintrc.json --fix --quiet --ext .ts,.tsx,.js,.json ./",
     "prettier": "prettier --config .prettierrc --check './**/*.{ts, tsx, json}'"
   },
   "repository": {

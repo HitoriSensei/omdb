@@ -11,7 +11,8 @@ export const serverSidePropsCommonErrorHandler = function <
   return getProps(
     async (ctx): Promise<{ props: VendorErrorProps } | P> => {
       try {
-        return await getData(ctx)
+        // https://dev.to/ryyppy/reason-records-nextjs-undefined-and-getstaticprops-5d46
+        return JSON.parse(JSON.stringify(await getData(ctx)))
       } catch (e) {
         if (e instanceof Redirect404) {
           return {

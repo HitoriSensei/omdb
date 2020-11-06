@@ -1,4 +1,4 @@
-const merge = require('lodash/merge')
+const merge = require("./utils/mergeNextConfig")
 const requireGlob = require("require-glob")
 require('typescript-require')({
   targetES5: false,
@@ -15,12 +15,6 @@ const nextConfig = {
   poweredByHeader: false,
   publicRuntimeConfig: require('../config/public.ts').default(),
   serverRuntimeConfig: require('../config/private.ts').default(),
-  staticRewrites: [],
-  async rewrites() {
-    return [
-      ...this.staticRewrites
-    ]
-  },
 };
 
 // Load mods
@@ -28,8 +22,6 @@ const mods = requireGlob.sync('./mods/*/next.config.js', {
   cwd: __dirname,
 });
 
-for(const mod in mods) {
-  merge(nextConfig, mods[mod].nextConfig)
-}
+merge(nextConfig, ...Object.values(mods).map(m => m.nextConfig));
 
 module.exports = nextConfig;

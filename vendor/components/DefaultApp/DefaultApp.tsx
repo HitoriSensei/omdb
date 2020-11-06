@@ -46,9 +46,7 @@ export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps }) =>
         <Append key={i} />
       ))}
       <Header />
-      <motion.div className='root' animate='enter'>
-        <DefaultErrorHandler key={props.router.route} {...props} />
-      </motion.div>
+      <DefaultErrorHandler key={props.router.route} {...props} />
       <Footer />
     </CombinedWrapper>
   )

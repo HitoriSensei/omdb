@@ -46,9 +46,10 @@ cd my_project
 git remote add framework git@git.pride.gl:piotr.bosak/nextjs-starter.git
 ```
 
-Rebase current branch onto framework
+Merge framework into branch
 ```
-git pull --rebase framework master
+git fetch framework
+git merge framework master --allow-unrelated-histories
 ``` 
 
 # Updating framework

@@ -49,7 +49,7 @@ git remote add framework git@git.pride.gl:piotr.bosak/nextjs-starter.git
 Merge framework into branch
 ```
 git fetch framework
-git merge framework master --allow-unrelated-histories
+git merge framework/master --allow-unrelated-histories
 ``` 
 
 # Updating framework

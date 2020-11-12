@@ -20,7 +20,7 @@ declare interface StoreActions extends FrameworkLibraryActions {}
 
 declare interface VendorActions extends FrameworkLibraryActions {}
 
-declare type ActionPayload<Payload extends { [key: string]: unknown }> = {}
+declare type ActionPayload<Payload> = {}
 
 declare type Values<T extends any> = T[keyof T]
 

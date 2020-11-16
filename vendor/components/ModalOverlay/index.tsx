@@ -4,7 +4,6 @@ import Transition from 'react-transition-group/Transition'
 import { motion } from 'framer-motion'
 import { mainVariant, sectionVariant } from '../FramerMotion/common-variants'
 import classNames from 'classnames'
-import { scrollbarWidth } from '@xobotyi/scrollbar-width'
 
 export function ModalOverlay(props: {
   active: boolean
@@ -22,8 +21,8 @@ export function ModalOverlay(props: {
                 variants={mainVariant}
                 className={classNames(props.styles.overlay)}
                 style={{
-                  paddingRight: isExiting ? 0 : scrollbarWidth() + 'px',
-                  paddingLeft: scrollbarWidth() + 'px',
+                  paddingRight: isExiting ? 0 : 'var(--scrollbar-padding)',
+                  paddingLeft: 'var(--scrollbar-padding)',
                 }}
                 initial={'initial'}
                 animate={isExiting ? 'exit' : 'enter'}

@@ -8,10 +8,15 @@ export function lockScroll() {
   const scrollingElement = document.body.scrollTop ? document.body : document.documentElement
   scrollingElement.setAttribute('data-scroll', String(scrollingElement.scrollTop))
 
+  const scrollBarWidth =
+    scrollingElement.scrollHeight > scrollingElement.clientHeight ? scrollbarWidth() : 0
+
+  document.documentElement.style.setProperty('--scrollbar-padding', `${scrollBarWidth}px`)
+
   Object.assign(document.body.style, {
     marginTop: -scrollingElement.scrollTop + 'px',
     overflow: 'hidden',
-    paddingRight: scrollbarWidth() + 'px',
+    paddingRight: scrollBarWidth + 'px',
     left: 0,
     right: 0,
     top: 0,

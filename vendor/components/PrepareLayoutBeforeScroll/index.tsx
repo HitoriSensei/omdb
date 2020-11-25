@@ -1,13 +1,13 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { IsReadyToShow } from '../../hooks/useIsReadyToShow'
 
-function loadLayoutAlteringImages(
-  beforeElement: HTMLElement,
+export function loadLayoutAlteringImages(
+  beforeElement: HTMLElement | null,
   cb: (images: HTMLImageElement[]) => void,
 ): (() => void) | undefined {
   window.getComputedStyle(document.body, 'height')
   const getElementTop = function () {
-    return beforeElement.getBoundingClientRect().top
+    return beforeElement === null ? window.innerHeight : beforeElement.getBoundingClientRect().top
   }
   const elementTop = getElementTop()
 

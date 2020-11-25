@@ -31,14 +31,14 @@ export function unlockScroll() {
     : document.documentElement
   const scrollTop = parseInt(scrollingElement.getAttribute('data-scroll') ?? '0')
   Object.assign(document.body.style, {
-    marginTop: 0,
-    paddingRight: 0,
-    overflow: 'visible',
-    left: 'auto',
-    right: 'auto',
-    top: 'auto',
-    bottom: 'auto',
-    position: 'static',
+    marginTop: '',
+    paddingRight: '',
+    overflow: '',
+    left: '',
+    right: '',
+    top: '',
+    bottom: '',
+    position: '',
   })
   scrollingElement.scrollTop = scrollTop
 }

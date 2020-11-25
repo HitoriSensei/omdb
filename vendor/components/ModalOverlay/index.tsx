@@ -5,13 +5,14 @@ import { motion } from 'framer-motion'
 import { mainVariant, sectionVariant } from '../FramerMotion/common-variants'
 import classNames from 'classnames'
 
-export function ModalOverlay(props: {
+export function ModalOverlay<T extends keyof JSX.IntrinsicElements = 'div'>(props: {
   active: boolean
-  styles: Record<string, string>
+  className?: string
   children?: React.ReactNode
+  wrapperComponent?: T | React.ComponentType
 }) {
   return (
-    <TransitionGroup>
+    <TransitionGroup component={props.wrapperComponent}>
       {props.active ? (
         <Transition key={'modal'} timeout={300}>
           {(state) => {
@@ -19,7 +20,7 @@ export function ModalOverlay(props: {
             return (
               <motion.div
                 variants={mainVariant}
-                className={classNames(props.styles.overlay)}
+                className={classNames(props.className, state)}
                 style={{
                   paddingRight: isExiting ? 0 : 'var(--scrollbar-padding)',
                   paddingLeft: 'var(--scrollbar-padding)',
@@ -32,7 +33,9 @@ export function ModalOverlay(props: {
             )
           }}
         </Transition>
-      ) : null}
+      ) : (
+        <></>
+      )}
     </TransitionGroup>
   )
 }

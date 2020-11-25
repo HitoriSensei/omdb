@@ -2,6 +2,7 @@ import { combineReducers, createStore, ReducersMapObject } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
 import { createWrapper } from 'next-redux-wrapper'
 import rootReducer from '../../store/root-reducer'
+import memoizee from 'memoizee'
 
 export const StoreReducerExtensions: ReducersMapObject<StoreRoot & VendorStoreRoot> = {
   ...rootReducer,
@@ -19,6 +20,16 @@ export const wrapper = createWrapper<StoreRoot & VendorStoreRoot>(configureStore
   serializeState: (state) => JSON.parse(JSON.stringify(state)),
 })
 
+const getActionCreator = memoizee(
+  (p: unknown) => (payload: unknown) => ({
+    type: p,
+    payload: payload,
+  }),
+  {
+    primitive: true,
+  },
+)
+
 export function GenerateActions<Actions extends unknown>(): {
   [Action in keyof Actions]: Actions[Action] extends ActionPayload<infer Data>
     ? (payload: Data) => { type: Action; payload: Data }
@@ -32,10 +43,7 @@ export function GenerateActions<Actions extends unknown>(): {
     },
     {
       get(target, p: keyof Actions) {
-        return (payload: unknown) => ({
-          type: p,
-          payload: payload,
-        })
+        return getActionCreator(p)
       },
     },
   )

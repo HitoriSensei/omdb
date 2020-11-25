@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { isModalOpenSelector } from '../../../store/app/selectors'
+import { isModalOpenSelector } from 'store/app/selectors'
 import { useLockScroll } from '../../hooks/useLockScroll'
 
 export const ModalScrollFixer = (): null => {

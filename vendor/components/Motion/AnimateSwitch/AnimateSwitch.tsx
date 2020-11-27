@@ -24,20 +24,25 @@ export function AnimateSwitch({
 } & Omit<MotionProps, 'animate'>): React.ReactElement {
   return (
     <SwitchTransition mode='out-in'>
-      <Transition
-        key={transitionKey || children?.key}
-        timeout={timeout}
-        onExited={onExited || undefined}
-      >
-        {(state) => {
-          return (
-            children &&
-            cloneElement(children, {
-              animate: state === 'exiting' || state === 'exited' ? 'exit' : 'enter',
-            })
-          )
-        }}
-      </Transition>
+      {children ? (
+        <Transition
+          key={transitionKey || children.key}
+          timeout={timeout}
+          onExited={onExited || undefined}
+        >
+          {(state) => {
+            console.log(state)
+            return (
+              children &&
+              cloneElement(children, {
+                animate: state === 'exiting' || state === 'exited' ? 'exit' : 'enter',
+              })
+            )
+          }}
+        </Transition>
+      ) : (
+        <></>
+      )}
     </SwitchTransition>
   )
 }

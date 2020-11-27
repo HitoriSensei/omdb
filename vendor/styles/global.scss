@@ -12,7 +12,6 @@ html {
   color: var(--font-color-base);
   display: flex;
   flex-direction: column;
-  min-height: 100%;
 }
 
 :focus {
@@ -68,3 +67,5 @@ a {
     z-index: 2;
   }
 }
+
+@import "../mods/**/global.scss";

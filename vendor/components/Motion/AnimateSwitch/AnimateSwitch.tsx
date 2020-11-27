@@ -31,7 +31,6 @@ export function AnimateSwitch({
           onExited={onExited || undefined}
         >
           {(state) => {
-            console.log(state)
             return (
               children &&
               cloneElement(children, {

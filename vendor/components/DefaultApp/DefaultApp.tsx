@@ -9,7 +9,7 @@ import { Footer } from 'components/Footer/Footer'
 import React, { useEffect, useMemo } from 'react'
 import { DefaultErrorHandler } from '../../utils/DefaultErrorHandler'
 
-export const DefaultAppWrappers: Array<React.ComponentType<
+export const DefaultAppWrappers: Array<React.FunctionComponent<
   AppProps & { children: React.ReactNode }
 >> = [
   function JSS({ children }) {
@@ -47,12 +47,9 @@ export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps }) =>
     () =>
       DefaultAppWrappers.reduceRight(
         // eslint-disable-next-line react/display-name
-        (Content, Wrapper) => (props: AppProps & { children: React.ReactNode }) => (
-          <Wrapper {...props}>
-            <Content {...props} />
-          </Wrapper>
-        ),
-        (({ children }) => children) as React.ComponentType<
+        (Content, Wrapper) => (props: AppProps & { children: React.ReactNode }) =>
+          Wrapper({ ...props, children: Content(props) }),
+        (({ children }) => children) as React.FunctionComponent<
           AppProps & { children: React.ReactNode }
         >,
       ),

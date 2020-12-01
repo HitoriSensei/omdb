@@ -7,10 +7,18 @@ export const GlobalStaticStoreExtensions: Array<(
   ctx: GetStaticPropsContext & {
     store: Store<StoreRoot & VendorStoreRoot>
   },
-) => Promise<void>> = []
+) => Promise<void> | void> = []
 
 const emptyProps = async function <T>() {
   return { props: {} as T }
+}
+
+export const loadStaticStoreExtensions = async function (
+  ctx: GetStaticPropsContext & { store: Store<StoreRoot & VendorStoreRoot, any> },
+) {
+  if (GlobalStaticStoreExtensions.length) {
+    await Promise.all(GlobalStaticStoreExtensions.map((cb) => Promise.resolve(cb(ctx))))
+  }
 }
 
 export function VendorGetStaticProps<T>(
@@ -18,12 +26,10 @@ export function VendorGetStaticProps<T>(
     ctx: GetStaticPropsContext & {
       store: Store<StoreRoot>
     },
-  ) => Promise<GetStaticPropsResult<T>> = emptyProps,
+  ) => GetStaticPropsResult<T> | Promise<GetStaticPropsResult<T> | void> | void = emptyProps,
 ) {
   return serverSidePropsCommonErrorHandler(wrapper.getStaticProps, async (ctx) => {
-    if (GlobalStaticStoreExtensions.length) {
-      await Promise.all(GlobalStaticStoreExtensions.map((cb) => cb(ctx)))
-    }
-    return getProps(ctx)
+    await loadStaticStoreExtensions(ctx)
+    return Promise.resolve(getProps(ctx))
   })
 }

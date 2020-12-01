@@ -4,8 +4,19 @@
   --color-white: hsl(0, 0%, 100%);
   --color-black: hsl(0, 0%, 0%);
 
-  --font-size-1: 12px;
-  --font-size-2: 14px;
+  // these from sizes should be used in px() function to provide correct RWD sizes.
+  // eg. font-size: px(var(--font-size-1)).
+
+  // Due to var scope limitations, if px() would be used here, changes in --design-width or --base-unit in nested containers wouldn't be inherited and applied.
+
+  --font-size-1: 12;
+  --font-size-2: 14;
 
   --font-color-base: hsl(218, 54%, 20%);
+
+  // Unit base for px() function. Every px() value will be miltiplied by this unit
+  --base-unit: 1vw;
+
+  // Used for RWD scaling in px() function. This is the base zepplin design viewport width.
+  --design-width: 375;
 }

@@ -6,12 +6,29 @@ import { ModalScrollFixer } from 'vendor/components/ModalScrollFixer'
 import { PageTransitionScrollFixer } from 'vendor/components/PageTransitionScrollFixer'
 import { Header } from 'components/Header/Header'
 import { Footer } from 'components/Footer/Footer'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { DefaultErrorHandler } from '../../utils/DefaultErrorHandler'
 
-export const DefaultAppWrappers: Array<React.ComponentType> = [
-  ({ children }) => <MuiThemeProvider theme={muiTheme}>{children}</MuiThemeProvider>,
-  MediaContextProvider,
+export const DefaultAppWrappers: Array<React.ComponentType<
+  AppProps & { children: React.ReactNode }
+>> = [
+  function JSS({ children }) {
+    useEffect(() => {
+      // Remove the server-side injected CSS.
+      const jssStyles = document.querySelector('#jss-server-side')
+      if (jssStyles) {
+        jssStyles.parentElement?.removeChild(jssStyles)
+      }
+    }, [])
+
+    return <>{children}</>
+  },
+  function MuiTheme({ children }) {
+    return <MuiThemeProvider theme={muiTheme}>{children}</MuiThemeProvider>
+  },
+  function MediaContext({ children }) {
+    return <MediaContextProvider>{children}</MediaContextProvider>
+  },
 ]
 
 export const DefaultAppAppends: Array<React.ComponentType> = [
@@ -28,19 +45,21 @@ export const DefaultAppAppends: Array<React.ComponentType> = [
 export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps }) => {
   const CombinedWrapper = useMemo(
     () =>
-      DefaultAppWrappers.reduce(
+      DefaultAppWrappers.reduceRight(
         // eslint-disable-next-line react/display-name
-        (Content, Wrapper) => (props) => (
-          <Wrapper>
+        (Content, Wrapper) => (props: AppProps & { children: React.ReactNode }) => (
+          <Wrapper {...props}>
             <Content {...props} />
           </Wrapper>
         ),
-        (({ children }) => children) as React.ComponentType,
+        (({ children }) => children) as React.ComponentType<
+          AppProps & { children: React.ReactNode }
+        >,
       ),
     [DefaultAppWrappers.length],
   )
   return (
-    <CombinedWrapper>
+    <CombinedWrapper {...props}>
       {DefaultAppAppends.map((Append, i) => (
         <Append key={i} />
       ))}

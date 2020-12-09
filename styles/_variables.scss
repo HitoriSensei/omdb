@@ -14,9 +14,22 @@
 
   --font-color-base: hsl(218, 54%, 20%);
 
-  // Unit base for px() function. Every px() value will be miltiplied by this unit
-  --base-unit: 1vw;
+  // Default: px(1) == 1px
+  --base-unit: 1px;
+  --design-width: 100vw;
 
-  // Used for RWD scaling in px() function. This is the base zepplin design viewport width.
-  --design-width: 375;
+  // Example:
+  // Scale to viewport width.
+  // Then just use px({value}) for describing sizes, where {value} is what the size on zepplin
+
+  // Use screen width as base unit. This will make the page "scale" with resolution. Extremely useful for scalable mobile designs.
+  //--base-unit: 1vw;
+
+  // Use zepplin resolution as our design width
+  //--design-width: 375;
+
+  // Example: Match real pixel size; px(1) === 1px
+
+  // --base-unit: 1px;
+  // --design-width: 100;
 }

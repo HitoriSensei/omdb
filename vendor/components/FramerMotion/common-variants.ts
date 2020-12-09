@@ -60,7 +60,7 @@ export const fromRightVariant = {
 }
 
 export const staggerVariant = {
-  exit: { transition: { staggerChildren: 0.1 } },
+  exit: { transition: { staggerChildren: 0.02 } },
   enter: { transition: { staggerChildren: 0.1 } },
 }
 

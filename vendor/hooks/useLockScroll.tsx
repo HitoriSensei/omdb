@@ -20,7 +20,6 @@ export function lockScroll() {
     left: 0,
     right: 0,
     top: 0,
-    bottom: 0,
     position: 'fixed',
   })
 }
@@ -37,7 +36,6 @@ export function unlockScroll() {
     left: '',
     right: '',
     top: '',
-    bottom: '',
     position: '',
   })
   scrollingElement.scrollTop = scrollTop

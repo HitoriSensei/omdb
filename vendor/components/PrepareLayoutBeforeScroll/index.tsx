@@ -1,5 +1,6 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IsReadyToShow } from '../../hooks/useIsReadyToShow'
+import { useIsomorphicLayoutEffect } from 'react-use'
 
 export function loadLayoutAlteringImages(
   beforeElement: HTMLElement | null,
@@ -60,7 +61,7 @@ function findElement(hash: string): { id: string; element: HTMLElement | null } 
 export const PrepareLayoutBeforeScroll = (props: { children: React.ReactNode }) => {
   const [ready, setReady] = useState(true)
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     try {
       const { id, element } = findElement(window.location.hash)
 

@@ -9,9 +9,9 @@ import { Footer } from 'components/Footer/Footer'
 import React, { useEffect, useMemo } from 'react'
 import { DefaultErrorHandler } from '../../utils/DefaultErrorHandler'
 
-export const DefaultAppWrappers: Array<React.FunctionComponent<
-  AppProps & { children: React.ReactNode }
->> = [
+export const DefaultAppWrappers: Array<
+  React.FunctionComponent<AppProps & { children: React.ReactNode }>
+> = [
   function JSS({ children }) {
     useEffect(() => {
       // Remove the server-side injected CSS.
@@ -31,7 +31,7 @@ export const DefaultAppWrappers: Array<React.FunctionComponent<
   },
 ]
 
-export const DefaultAppAppends: Array<React.ComponentType> = [
+export const DefaultAppAppends: Array<() => React.ReactNode> = [
   ModalScrollFixer,
   PageTransitionScrollFixer,
 ]
@@ -57,9 +57,9 @@ export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps }) =>
   )
   return (
     <CombinedWrapper {...props}>
-      {DefaultAppAppends.map((Append, i) => (
-        <Append key={i} />
-      ))}
+      {DefaultAppAppends.map((Append, i) => {
+        return <React.Fragment key={i}>{Append()}</React.Fragment>
+      })}
       <Header />
       <DefaultErrorHandler key={props.router.route} {...props} />
       <Footer />

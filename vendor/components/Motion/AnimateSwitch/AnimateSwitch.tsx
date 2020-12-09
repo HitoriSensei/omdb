@@ -1,6 +1,6 @@
-import { cloneElement, ReactElement } from 'react'
-import { SwitchTransition, Transition } from 'react-transition-group'
+import { ReactElement, useState } from 'react'
 import { MotionProps } from 'framer-motion'
+import { useIsomorphicLayoutEffect } from 'react-use'
 
 /**
  * Works in similar way to AnimatePresence with exitBeforeEnter, but using SwitchTransition with ability to timeout exit animation
@@ -16,32 +16,53 @@ export function AnimateSwitch({
   timeout = 300,
   onExited = () => window.scrollTo(0, 0),
 }: {
-  transitionKey?: string
+  transitionKey: any
   timeout?: number
   className?: string
-  children: ReactElement<MotionProps> | null
+  children?: ((props: { initial: string; animate: string }) => ReactElement) | null
   onExited?: (() => void) | null
-} & Omit<MotionProps, 'animate'>): React.ReactElement {
+} & Omit<MotionProps, 'animate'>): ReactElement {
+  const [{ children: savedChild }, setSavedChild] = useState<{
+    children?: ((props: MotionProps) => ReactElement) | null
+  }>({ children: null })
+  const [instance] = useState<{ transitionKey: any; currentTimer?: number; currentChild: any }>({
+    currentTimer: undefined,
+    currentChild: children,
+    transitionKey: transitionKey,
+  })
+
+  useIsomorphicLayoutEffect(() => {
+    clearTimeout(instance.currentTimer)
+    instance.currentTimer = undefined
+    setSavedChild({ children: instance.currentChild })
+    instance.currentChild = children
+    instance.transitionKey = transitionKey
+
+    instance.currentTimer = window.setTimeout(() => {
+      onExited && onExited()
+      setSavedChild({ children: null })
+    }, timeout)
+
+    return () => clearTimeout(instance.currentTimer)
+  }, [transitionKey])
+
+  if (transitionKey === instance.transitionKey) {
+    instance.currentChild = children
+  }
+
   return (
-    <SwitchTransition mode='out-in'>
-      {children ? (
-        <Transition
-          key={transitionKey || children.key}
-          timeout={timeout}
-          onExited={onExited || undefined}
-        >
-          {(state) => {
-            return (
-              children &&
-              cloneElement(children, {
-                animate: state === 'exiting' || state === 'exited' ? 'exit' : 'enter',
-              })
-            )
-          }}
-        </Transition>
-      ) : (
-        <></>
-      )}
-    </SwitchTransition>
+    <>
+      {savedChild
+        ? savedChild({
+            initial: 'initial',
+            animate: 'exit',
+          })
+        : instance.currentChild
+        ? instance.currentChild({
+            initial: 'initial',
+            animate: 'enter',
+          })
+        : null}
+    </>
   )
 }

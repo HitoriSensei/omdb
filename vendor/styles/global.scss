@@ -1,4 +1,6 @@
 @import 'mixins';
+@import '../mods/**/styles/global.scss';
+
 @import 'styles/variables';
 @import 'styles/fonts';
 @import 'styles/mui-base';
@@ -6,9 +8,6 @@
 body,
 html {
   font-family: var(--font-family-main);
-  font-size: px(var(--font-size-2));
-  line-height: 1.4em;
-  font-stretch: condensed;
   color: var(--font-color-base);
   display: flex;
   flex-direction: column;
@@ -35,27 +34,27 @@ a {
   color: inherit;
 }
 
-@include mediaDesktop() {
-  /* The emerging W3C standard
-     that is currently Firefox-only */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-accent) var(--color-white);
-  }
-
-  /* Works on Chrome/Edge/Safari */
-  *::-webkit-scrollbar {
-    width: 12px;
-  }
-  *::-webkit-scrollbar-track {
-    background: var(--color-white);
-  }
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--color-accent);
-    border-radius: 20px;
-    border: 3px solid var(--color-white);
-  }
-}
+//@include mediaDesktop() {
+//  /* The emerging W3C standard
+//     that is currently Firefox-only */
+//  * {
+//    scrollbar-width: thin;
+//    scrollbar-color: var(--color-accent) var(--color-white);
+//  }
+//
+//  /* Works on Chrome/Edge/Safari */
+//  *::-webkit-scrollbar {
+//    width: 12px;
+//  }
+//  *::-webkit-scrollbar-track {
+//    background: var(--color-white);
+//  }
+//  *::-webkit-scrollbar-thumb {
+//    background-color: var(--color-accent);
+//    border-radius: 20px;
+//    border: 3px solid var(--color-white);
+//  }
+//}
 
 .page-animation > * {
   width: 100%;

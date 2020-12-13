@@ -22,6 +22,8 @@ function customizer(objValue, srcValue, key, object, source, stack) {
     if (Array.isArray(srcValue)) {
       return [objValue, ...srcValue]
     }
+
+    return mergeWith(srcValue, objValue, customizer)
   }
 
   return srcValue

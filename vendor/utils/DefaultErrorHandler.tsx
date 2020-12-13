@@ -1,4 +1,3 @@
-import React from 'react'
 import Pages404 from '../../pages/404'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
@@ -17,7 +16,7 @@ function ClientRedirect(props: { to: string }) {
  * @param pageProps
  * @constructor
  */
-export const DefaultErrorHandler = <T extends any>({
+export const DefaultErrorHandler = ({
   Component,
   pageProps,
 }: AppProps & { pageProps: VendorErrorProps }) => {

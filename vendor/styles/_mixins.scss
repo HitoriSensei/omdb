@@ -1,4 +1,14 @@
 @import "functions";
+
+$easings-legacy: true;
+@import "~easings.scss/src/functions/functions";
+@import "~easings.scss/src/functions/bezier";
+@import "~easings.scss/src/functions/helpers";
+@import "~easings.scss/src/easings/easings";
+@import "~easings.scss/src/easings/variables";
+@import "~easings.scss/src/easings/list-and-mapping";
+@import "~easings.scss/src/easings/timings";
+
 // SCSS Variables
 $width-screen-tablet: 712px;
 $width-screen-desktop: 1025px;

@@ -31,21 +31,21 @@ export const DefaultAppWrappers: Array<
   },
 ]
 
+export const DefaultContentsWrappers: Array<
+  React.FunctionComponent<AppProps & { children: React.ReactNode }>
+> = []
+
 export const DefaultAppAppends: Array<() => React.ReactNode> = [
   ModalScrollFixer,
   PageTransitionScrollFixer,
 ]
 
-/**
- * This is the default app setup that provides useful features.
- * You create and use your own implementation providing it to VendorApp instead of DefaultApp
- *
- * @param props
- */
-export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps }) => {
-  const CombinedWrapper = useMemo(
+const useCreatePageWrapper = function (
+  wrappers: Array<React.FunctionComponent<AppProps & { children: React.ReactNode }>>,
+) {
+  return useMemo(
     () =>
-      DefaultAppWrappers.reduceRight(
+      wrappers.reduceRight(
         // eslint-disable-next-line react/display-name
         (Content, Wrapper) => (props: AppProps & { children: React.ReactNode }) =>
           Wrapper({ ...props, children: Content(props) }),
@@ -53,15 +53,29 @@ export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps }) =>
           AppProps & { children: React.ReactNode }
         >,
       ),
-    [DefaultAppWrappers.length],
+
+    [wrappers.length],
   )
+}
+/**
+ * This is the default app setup that provides useful features.
+ * You create and use your own implementation providing it to VendorApp instead of DefaultApp
+ *
+ * @param props
+ */
+export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps }) => {
+  const CombinedWrapper = useCreatePageWrapper(DefaultAppWrappers)
+  const CombinedContentsWrapper = useCreatePageWrapper(DefaultContentsWrappers)
+
   return (
     <CombinedWrapper {...props}>
       {DefaultAppAppends.map((Append, i) => {
         return <React.Fragment key={i}>{Append()}</React.Fragment>
       })}
       <Header />
-      <DefaultErrorHandler key={props.router.route} {...props} />
+      <CombinedContentsWrapper {...props}>
+        <DefaultErrorHandler key={props.router.route} {...props} />
+      </CombinedContentsWrapper>
       <Footer />
     </CombinedWrapper>
   )

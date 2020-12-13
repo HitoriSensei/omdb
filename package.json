@@ -29,6 +29,7 @@
     "axios": "^0.21.0",
     "babel-plugin-const-enum": "^1.0.1",
     "classnames": "^2.2.6",
+    "easings.scss": "^0.3.0",
     "formik": "^2.2.5",
     "framer-motion": "^2.9.5",
     "globby": "^11.0.1",

@@ -1,6 +1,13 @@
-import { ReactElement, useState } from 'react'
+import { createContext, ReactElement, useState } from 'react'
 import { MotionProps } from 'framer-motion'
 import { useIsomorphicLayoutEffect } from 'react-use'
+
+type SwitchProps = { initial: string; animate: string }
+
+export const SwitchContext = createContext<SwitchProps>({
+  initial: 'initial',
+  animate: 'enter',
+})
 
 /**
  * Works in similar way to AnimatePresence with exitBeforeEnter, but using SwitchTransition with ability to timeout exit animation
@@ -19,7 +26,7 @@ export function AnimateSwitch({
   transitionKey: any
   timeout?: number
   className?: string
-  children?: ((props: { initial: string; animate: string }) => ReactElement) | null
+  children?: ((props: SwitchProps) => ReactElement) | null
   onExited?: (() => void) | null
 } & Omit<MotionProps, 'animate'>): ReactElement {
   const [{ children: savedChild }, setSavedChild] = useState<{
@@ -50,19 +57,23 @@ export function AnimateSwitch({
     instance.currentChild = children
   }
 
+  const switchContext = savedChild
+    ? {
+        initial: 'initial',
+        animate: 'exit',
+      }
+    : {
+        initial: 'initial',
+        animate: 'enter',
+      }
+
   return (
-    <>
+    <SwitchContext.Provider value={switchContext}>
       {savedChild
-        ? savedChild({
-            initial: 'initial',
-            animate: 'exit',
-          })
+        ? savedChild(switchContext)
         : instance.currentChild
-        ? instance.currentChild({
-            initial: 'initial',
-            animate: 'enter',
-          })
+        ? instance.currentChild(switchContext)
         : null}
-    </>
+    </SwitchContext.Provider>
   )
 }

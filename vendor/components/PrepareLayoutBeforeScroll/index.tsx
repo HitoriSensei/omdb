@@ -3,7 +3,13 @@ import { IsReadyToShow } from '../../hooks/useIsReadyToShow'
 import { useIsomorphicLayoutEffect } from 'react-use'
 
 export function loadLayoutAlteringImages(
-  beforeElement: HTMLElement | null,
+  {
+    beforeElement = null,
+    insideElement = null,
+  }: Partial<{
+    beforeElement: HTMLElement | null
+    insideElement: HTMLElement | null
+  }>,
   cb: (images: HTMLImageElement[]) => void,
 ): (() => void) | undefined {
   window.getComputedStyle(document.body, 'height')
@@ -12,7 +18,9 @@ export function loadLayoutAlteringImages(
   }
   const elementTop = getElementTop()
 
-  const htmlImageElements = Array.from(document.images).filter((img) => {
+  const htmlImageElements = Array.from(
+    insideElement ? insideElement.querySelectorAll('img') : document.images,
+  ).filter((img) => {
     const imageTop = img.getBoundingClientRect().top
     // Load only incomplete images that are above the element we need to scroll to.
     // Why? Because images above the element can cause layout shift when they are loaded and displayed. Elements below are (most probably) not important here.
@@ -83,7 +91,7 @@ export const PrepareLayoutBeforeScroll = (props: { children: React.ReactNode }) 
 
       if (element) {
         element.setAttribute('id', id)
-        return loadLayoutAlteringImages(element, () => {
+        return loadLayoutAlteringImages({ beforeElement: element }, () => {
           requestAnimationFrame(() => {
             // Force layout recalculation
             window.getComputedStyle(document.body, 'height')

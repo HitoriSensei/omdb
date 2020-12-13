@@ -3,16 +3,19 @@ import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult
 import { wrapper } from '../store/configure-store'
 import { serverSidePropsCommonErrorHandler } from './serverSidePropsCommonErrorHandler'
 import { loadStaticStoreExtensions } from './VendorGetStaticProps'
+import { ParsedUrlQuery } from 'querystring'
 
-export const GlobalServerSidePropsExtensions: Array<(
-  ctx: GetServerSidePropsContext & {
-    store: Store<StoreRoot & VendorStoreRoot>
-  },
-) => Promise<void> | void> = [loadStaticStoreExtensions]
-
-export function VendorGetServerSideProps<T>(
-  getData: (
+export const GlobalServerSidePropsExtensions: Array<
+  (
     ctx: GetServerSidePropsContext & {
+      store: Store<StoreRoot & VendorStoreRoot>
+    },
+  ) => Promise<void> | void
+> = [loadStaticStoreExtensions]
+
+export function VendorGetServerSideProps<T, Q extends ParsedUrlQuery = ParsedUrlQuery>(
+  getData: (
+    ctx: GetServerSidePropsContext<Q> & {
       store: Store<StoreRoot>
     },
   ) =>
@@ -25,7 +28,7 @@ export function VendorGetServerSideProps<T>(
   return serverSidePropsCommonErrorHandler(
     wrapper.getServerSideProps as any,
     async (
-      ctx: GetServerSidePropsContext & {
+      ctx: GetServerSidePropsContext<Q> & {
         store: Store<StoreRoot & VendorStoreRoot>
       },
     ) => {

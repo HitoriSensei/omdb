@@ -33,12 +33,12 @@ export const figureVariant = {
   enter: {
     y: 0,
     opacity: 1,
-    transition: { duration: 0.4, delay: 0.1, ease: [0.48, 0.15, 0.25, 0.96] },
+    transition: { duration: 0.4, ease: [0.48, 0.15, 0.25, 0.96] },
   },
   exit: {
     y: -40,
     opacity: 0,
-    transition: { duration: 0.4, delay: 0.1, ease: [0.48, 0.15, 0.25, 0.96] },
+    transition: { duration: 0.4, ease: [0.48, 0.15, 0.25, 0.96] },
   },
 }
 
@@ -80,11 +80,11 @@ export const sectionVariant = {
   enter: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.3, ease: [0.48, 0.15, 0.25, 0.96], staggerChildren: 0.1 },
+    transition: { duration: 0.3 },
   },
   exit: {
     opacity: 0,
-    y: 20,
-    transition: { duration: 0.3, ease: [0.48, 0.15, 0.25, 0.96], staggerChildren: 0.1 },
+    y: -20,
+    transition: { duration: 0.3 },
   },
 }

@@ -1,3 +1,5 @@
+import './ssg-mods-loader'
+
 function requireAll(r: __WebpackModuleApi.RequireContext) {
   r.keys().forEach(r)
 }

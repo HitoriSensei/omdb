@@ -1,6 +1,7 @@
 import Pages404 from '../../pages/404'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
+import { ReactElement } from 'react'
 
 function ClientRedirect(props: { to: string }) {
   const { replace } = useRouter()
@@ -8,23 +9,43 @@ function ClientRedirect(props: { to: string }) {
   return null
 }
 
+export const DefaultErrorHandlerExtensions: Array<
+  (ctx: AppProps & { pageProps: VendorErrorProps }) => ReactElement | undefined
+> = [
+  /**
+   * Displays 404 page if server-side props fetching throws an error
+   *
+   * @deprecated
+   * @param pageProps
+   */
+  ({ pageProps }) => {
+    if (pageProps._is403 || pageProps._is404) {
+      return <Pages404 />
+    }
+  },
+
+  // Legacy
+  ({ pageProps }) => {
+    if (pageProps._redirect) {
+      return <ClientRedirect to={pageProps._redirect} />
+    }
+  },
+]
+
 /**
- * Early version
- * Displays 404 page if server-side props fetching throws an error
- *
  * @param Component
  * @param pageProps
  * @constructor
  */
-export const DefaultErrorHandler = ({
-  Component,
-  pageProps,
-}: AppProps & { pageProps: VendorErrorProps }) => {
-  return pageProps._is403 || pageProps._is404 ? (
-    <Pages404 />
-  ) : pageProps._redirect ? (
-    <ClientRedirect to={pageProps._redirect} />
-  ) : (
-    <Component {...pageProps} />
-  )
+export const DefaultErrorHandler = (props: AppProps & { pageProps: VendorErrorProps }) => {
+  for (const handler of DefaultErrorHandlerExtensions) {
+    const override = handler(props)
+    if (override) {
+      return override
+    }
+  }
+
+  const Component = props.Component
+
+  return <Component {...props.pageProps} />
 }

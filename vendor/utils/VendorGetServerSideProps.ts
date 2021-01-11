@@ -37,5 +37,6 @@ export function VendorGetServerSideProps<T, Q extends ParsedUrlQuery = ParsedUrl
       }
       return getData(ctx)
     },
+    false,
   )
 }

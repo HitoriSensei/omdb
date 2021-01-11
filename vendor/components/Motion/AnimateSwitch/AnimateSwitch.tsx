@@ -39,8 +39,12 @@ export function AnimateSwitch({
   })
 
   useIsomorphicLayoutEffect(() => {
+    if (transitionKey === instance.transitionKey) {
+      return
+    }
     clearTimeout(instance.currentTimer)
     instance.currentTimer = undefined
+    instance.transitionKey = transitionKey
     setSavedChild({ children: instance.currentChild })
     instance.currentChild = children
     instance.transitionKey = transitionKey

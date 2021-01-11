@@ -35,7 +35,7 @@ export const DefaultContentsWrappers: Array<
   React.FunctionComponent<AppProps & { children: React.ReactNode }>
 > = []
 
-export const DefaultAppAppends: Array<() => React.ReactNode> = [
+export const DefaultAppAppends: Array<React.FunctionComponent> = [
   ModalScrollFixer,
   PageTransitionScrollFixer,
 ]
@@ -47,8 +47,9 @@ const useCreatePageWrapper = function (
     () =>
       wrappers.reduceRight(
         // eslint-disable-next-line react/display-name
-        (Content, Wrapper) => (props: AppProps & { children: React.ReactNode }) =>
-          Wrapper({ ...props, children: Content(props) }),
+        (Content, Wrapper) => (props: AppProps & { children: React.ReactNode }) => (
+          <Wrapper {...props}>{Content(props)}</Wrapper>
+        ),
         (({ children }) => children) as React.FunctionComponent<
           AppProps & { children: React.ReactNode }
         >,
@@ -57,6 +58,7 @@ const useCreatePageWrapper = function (
     [wrappers.length],
   )
 }
+
 /**
  * This is the default app setup that provides useful features.
  * You create and use your own implementation providing it to VendorApp instead of DefaultApp
@@ -70,7 +72,7 @@ export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps }) =>
   return (
     <CombinedWrapper {...props}>
       {DefaultAppAppends.map((Append, i) => {
-        return <React.Fragment key={i}>{Append()}</React.Fragment>
+        return <Append key={i} />
       })}
       <Header />
       <CombinedContentsWrapper {...props}>

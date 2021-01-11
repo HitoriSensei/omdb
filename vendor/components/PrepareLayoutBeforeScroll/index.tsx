@@ -7,8 +7,8 @@ export function loadLayoutAlteringImages(
     beforeElement = null,
     insideElement = null,
   }: Partial<{
-    beforeElement: HTMLElement | null
-    insideElement: HTMLElement | null
+    beforeElement: Element | null
+    insideElement: Element | null
   }>,
   cb: (images: HTMLImageElement[]) => void,
 ): (() => void) | undefined {

@@ -8,7 +8,7 @@ import { loadLayoutAlteringImages } from '../components/PrepareLayoutBeforeScrol
  */
 export const useVisibleImagesLoaded = (...deps: any[]) => {
   const [visibleImagedLoaded, setReady] = useState(true)
-  const ref = useRef<HTMLElement | null>(null)
+  const ref = useRef<any | null>(null)
 
   useEffect(() => {
     const current = ref.current

@@ -2,6 +2,6 @@ import { GetStaticPropsResult } from 'next'
 
 export const GlobalStaticPropsDecorators: Array<
   <T>(
-    ctx: GetStaticPropsResult<T> | Promise<GetStaticPropsResult<T> | void> | void,
-  ) => GetStaticPropsResult<T> | Promise<GetStaticPropsResult<T> | void> | void
+    ctx: GetStaticPropsResult<T> | undefined,
+  ) => GetStaticPropsResult<T> | Promise<GetStaticPropsResult<T> | undefined> | undefined
 > = []

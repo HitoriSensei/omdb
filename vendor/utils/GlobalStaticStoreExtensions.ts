@@ -1,4 +1,4 @@
-import { GetStaticPropsContext } from 'next'
+import { GetStaticPropsContext, GetStaticPropsResult } from 'next'
 import { Store } from 'redux'
 
 export const GlobalStaticStoreExtensions: Array<
@@ -6,5 +6,5 @@ export const GlobalStaticStoreExtensions: Array<
     ctx: GetStaticPropsContext & {
       store: Store<StoreRoot & VendorStoreRoot>
     },
-  ) => Promise<void> | void
+  ) => Promise<void | Partial<GetStaticPropsResult<any>>> | void
 > = []

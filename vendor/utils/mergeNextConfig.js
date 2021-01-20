@@ -8,6 +8,11 @@ function customizer(objValue, srcValue, key, object, source, stack) {
           return [...(await objValue()), ...(await srcValue())]
         }
       }
+      case 'redirects': {
+        return async () => {
+          return [...(await objValue()), ...(await srcValue())]
+        }
+      }
       case 'webpack': {
         return (config, ctx) => {
           return srcValue(objValue(config, ctx), ctx)

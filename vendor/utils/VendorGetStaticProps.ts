@@ -35,7 +35,7 @@ export function VendorGetStaticProps<T, Q extends ParsedUrlQuery = ParsedUrlQuer
       await loadStaticStoreExtensions(ctx)
       let returnProps: GetStaticPropsResult<T> | undefined = (await getProps(ctx)) || undefined
       for (const decorator of GlobalStaticPropsDecorators) {
-        returnProps ||= await decorator(returnProps)
+        returnProps = (await decorator(returnProps)) || returnProps
       }
       return returnProps
     },

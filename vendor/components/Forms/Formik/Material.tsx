@@ -1,33 +1,45 @@
 import { FieldConfig, FieldProps } from 'formik/dist/Field'
 import * as React from 'react'
 import { ChangeEventHandler, FocusEventHandler } from 'react'
-import { FastField } from 'formik'
+import { Field } from 'formik'
+import { StandardTextFieldProps } from '@material-ui/core'
 
 export const FormikFieldMaterial = ({
   children,
+  baseInput = false,
   ...props
-}: FieldConfig & {
-  children: React.ReactElement<{
-    error: boolean
-    helperText?: string
-    name: string
-    value: any
-    onChange: ChangeEventHandler
-    onBlur: FocusEventHandler
-  }>
-}) => {
+}: StandardTextFieldProps &
+  FieldConfig & {
+    baseInput?: boolean
+    children: React.ReactElement<{
+      error: boolean
+      helperText?: string
+      name: string
+      value: any
+      onChange: ChangeEventHandler
+      onBlur: FocusEventHandler
+    }>
+  }) => {
   return (
-    <FastField {...props}>
-      {({ field, meta, form }: FieldProps) =>
-        React.cloneElement(children, {
+    <Field {...props}>
+      {({ field, meta, form }: FieldProps) => {
+        const fieldProps: StandardTextFieldProps = {
           name: field.name,
-          error: Boolean((!form.isValid || meta.touched) && meta.error),
-          helperText: (!form.isValid || meta.touched) && meta.error,
           value: field.value,
           onChange: field.onChange,
-          onBlur: field.onBlur,
-        })
-      }
-    </FastField>
+          onBlur: (e) => {
+            if (e) {
+              field.onBlur(e)
+            }
+            props.onBlur && props.onBlur(e)
+          },
+        }
+        if (!baseInput) {
+          fieldProps.helperText = (!form.isValid || meta.touched) && meta.error
+          fieldProps.error = Boolean((!form.isValid || meta.touched) && meta.error)
+        }
+        return React.cloneElement(children, fieldProps)
+      }}
+    </Field>
   )
 }

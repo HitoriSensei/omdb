@@ -21,6 +21,7 @@
     "@typescript-eslint/no-var-requires": "off",
     "func-names": "warn",
     "no-dupe-class-members": "off",
+    "no-use-before-define": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-extra-semi": "off",

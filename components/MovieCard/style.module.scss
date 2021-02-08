@@ -1,0 +1,52 @@
+.movieDetails {
+  width: 40vw;
+  [x-placement="left-start"] & {
+    text-align: right;
+  }
+
+  .movieDetailsPaper {
+    max-width: 40vw;
+    display: inline-block;
+    overflow: hidden;
+  }
+}
+
+.movieContainer {
+  position: relative;
+  transform: translateY(0px);
+  transition: transform 200ms ease-in-out;
+  will-change: transform;
+
+  &.selected {
+    transform: translateY(-5px);
+    z-index: 3;
+
+    :global(.MuiCardActionArea-focusHighlight) {
+      opacity: 0;
+    }
+  }
+}
+
+
+.media {
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+.overlay {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+.button {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

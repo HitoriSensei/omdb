@@ -1,13 +1,25 @@
 const vendorNextConfig = require('./vendor/next.config');
-const merge = require('./vendor/utils/mergeNextConfig')
+const merge = require('./vendor/utils/mergeNextConfig');
+
+if(!process.env.OMDB_APIKEY) {
+  console.error("Please set OMDB_APIKEY environmental variable")
+  process.exit(1)
+}
 
 const nextConfig = merge(
     vendorNextConfig,
     require('next-transpile-modules')(['stale-while-revalidate-lru-cache'])({}),
     {
-        async rewrites(){
+        env: {
+          OMDB_APIKEY: process.env.OMDB_APIKEY,
+        },
+        async redirects(){
           return [
-            // Here put what you normally would put input rewrites() function result
+            {
+              source: '/details/:id',
+              destination: 'https://www.imdb.com/title/:id',
+              permanent: false
+            }
           ]
         },
     }

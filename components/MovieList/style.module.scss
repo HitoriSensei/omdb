@@ -1,0 +1,7 @@
+.container {
+  pointer-events: none;
+
+  :global(.MuiPaper-root) {
+    pointer-events: all;
+  }
+}

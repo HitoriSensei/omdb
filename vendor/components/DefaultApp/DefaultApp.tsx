@@ -2,12 +2,12 @@ import { AppProps } from 'next/app'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import { muiTheme } from 'styles/mui-theme'
 import { MediaContextProvider } from 'vendor/utils/media'
-import { ModalScrollFixer } from 'vendor/components/ModalScrollFixer'
 import { PageTransitionScrollFixer } from 'vendor/components/PageTransitionScrollFixer'
-import { Header } from 'components/Header/Header'
+import Header from 'components/Header/Header'
 import { Footer } from 'components/Footer/Footer'
 import React, { useEffect, useMemo } from 'react'
 import { DefaultErrorHandler } from '../../utils/DefaultErrorHandler'
+import { CssBaseline } from '@material-ui/core'
 
 export const DefaultAppWrappers: Array<
   React.FunctionComponent<AppProps & { children: React.ReactNode }>
@@ -35,10 +35,7 @@ export const DefaultContentsWrappers: Array<
   React.FunctionComponent<AppProps & { children: React.ReactNode }>
 > = []
 
-export const DefaultAppAppends: Array<React.FunctionComponent> = [
-  ModalScrollFixer,
-  PageTransitionScrollFixer,
-]
+export const DefaultAppAppends: Array<React.FunctionComponent> = [PageTransitionScrollFixer]
 
 const useCreatePageWrapper = function (
   wrappers: Array<React.FunctionComponent<AppProps & { children: React.ReactNode }>>,
@@ -65,7 +62,7 @@ const useCreatePageWrapper = function (
  *
  * @param props
  */
-export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps }) => {
+export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps & CommonPageProps }) => {
   const CombinedWrapper = useCreatePageWrapper(DefaultAppWrappers)
   const CombinedContentsWrapper = useCreatePageWrapper(DefaultContentsWrappers)
 
@@ -74,7 +71,8 @@ export const DefaultApp = (props: AppProps & { pageProps: VendorErrorProps }) =>
       {DefaultAppAppends.map((Append, i) => {
         return <Append key={i} />
       })}
-      <Header />
+      <CssBaseline />
+      <Header {...props.pageProps} />
       <CombinedContentsWrapper {...props}>
         <DefaultErrorHandler key={props.router.route} {...props} />
       </CombinedContentsWrapper>

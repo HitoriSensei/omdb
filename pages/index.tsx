@@ -1,21 +1,10 @@
-import React from 'react'
 import { VendorGetStaticProps } from 'vendor/utils/VendorGetStaticProps'
+import SearchPage from 'pages/search/[query]'
 
-type Props = { date: string }
+const PagesIndex = SearchPage
 
-const PagesIndex = (props: Props) => {
-  return (
-    <>
-      Hello
-      {props.date}
-    </>
-  )
-}
-
-export const getStaticProps = VendorGetStaticProps<Props>(async () => ({
-  props: {
-    date: new Date().toISOString(),
-  },
+export const getStaticProps = VendorGetStaticProps(async () => ({
+  props: {},
 }))
 
 export default PagesIndex
